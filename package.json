@@ -60,6 +60,7 @@
     "dependencies": {
         "aws-sdk": "^2.1035.0",
         "coffee-service": "file:src/layer/service/coffee-service",
+        "coffee-util": "file:src/layer/util/coffee-util",
         "ncp": "^2.0.0"
     }
 }

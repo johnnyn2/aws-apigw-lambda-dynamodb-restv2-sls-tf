@@ -73,32 +73,46 @@ function spawnProcess(command, args, options, nextProcess) {
             });
         }
     } else if (platform === serverless) {
-        const roleName = 'YOUR_IAM_ROLE';
-        const getRole = await iam.getRole({ RoleName: roleName }).promise();
-        exec(
-            `aws sts assume-role --role-arn ${getRole.Role.Arn} --role-session-name deploy-${timestamp}`,
-            (err, data, strerr) => {
-                const result = JSON.parse(data);
-                const { AccessKeyId, SecretAccessKey, SessionToken } =
-                    result.Credentials;
-                const config = {
-                    serverless: {
-                        options: [cmd],
-                        env: {
-                            stage,
-                            accountId,
-                            AWS_ACCESS_KEY_ID: AccessKeyId,
-                            AWS_SECRET_ACCESS_KEY: SecretAccessKey,
-                            AWS_SESSION_TOKEN: SessionToken,
-                        },
-                    },
-                };
-                console.log('\nRunning "serverless deploy"...');
-                spawnProcess(platform, config[platform].options, {
-                    stdio: 'inherit',
-                    env: config[platform].env,
-                });
+        const roleName = 'YOUR_IAM_ROLE'; // You should put your iam role here if you need to assume role for deployment
+        const config = {
+            serverless: {
+                options: [cmd],
+                env: {
+                    stage,
+                    accountId,
+                    AWS_ACCESS_KEY_ID: '',
+                    AWS_SECRET_ACCESS_KEY: '',
+                },
             },
-        );
+        };
+        if (roleName !== 'YOUR_IAM_ROLE') {
+            const getRole = await iam.getRole({ RoleName: roleName }).promise();
+            exec(
+                `aws sts assume-role --role-arn ${getRole.Role.Arn} --role-session-name deploy-${timestamp}`,
+                (err, data, strerr) => {
+                    const result = JSON.parse(data);
+                    const { AccessKeyId, SecretAccessKey, SessionToken } =
+                        result.Credentials;
+                    config.serverless.env.AWS_ACCESS_KEY_ID = AccessKeyId;
+                    config.serverless.env.AWS_SECRET_ACCESS_KEY =
+                        SecretAccessKey;
+                    config.serverless.env['AWS_SESSION_TOKEN'] = SessionToken;
+                    console.log('\nRunning "serverless deploy"...');
+                    spawnProcess(platform, config[platform].options, {
+                        stdio: 'inherit',
+                        env: config[platform].env,
+                    });
+                },
+            );
+        } else {
+            config.serverless.env.AWS_ACCESS_KEY_ID = 'DEFAULT_ACCESS_KEY';
+            config.serverless.env.AWS_SECRET_ACCESS_KEY =
+                'DEFAULT_SECRET_ACCESS_KEY';
+            console.log('\nRunning "serverless deploy"...');
+            spawnProcess(platform, config[platform].options, {
+                stdio: 'inherit',
+                env: config[platform].env,
+            });
+        }
     }
 })();
