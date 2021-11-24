@@ -1,0 +1,28 @@
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+
+# aws lambda layers
+/layer
+
+# local dynamodb instance
+local-dynamodb
+
+# terraform directories
+.terraform
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+
+# env
+.env
+
+terraform/zip
+zip
+
+coverage
+
+.eslintcache

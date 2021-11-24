@@ -1,0 +1,61 @@
+{
+    "name": "aws-apigw-lambda-dynamodb-restv2-sls-tf",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "dev": "node offline.js",
+        "sls-deploy:dev": "npm run lint && npm install && npm run prune && node copy.js && npm install && node deploy.js",
+        "sls-deploy:staging": "npm run lint && npm install && npm run prune && node copy.js && npm install && node deploy.js",
+        "sls-deploy:prod": "npm run lint && npm install && npm run prune && node copy.js && npm install && node deploy.js",
+        "tf-plan:dev": "npm run lint && npm install && npm run prune && node copy.js && npm install && node deploy.js",
+        "tf-plan:staging": "npm run lint && npm install && npm run prune && node copy.js && npm install && node deploy.js",
+        "tf-plan:prod": "npm run lint && npm install && npm run prune && node copy.js && npm install && node deploy.js",
+        "tf-apply:dev": "npm run lint && node deploy.js",
+        "tf-apply:staging": "npm run lint && node deploy.js",
+        "tf-apply:prod": "npm run lint && node deploy.js",
+        "lint": "eslint --fix \"**/*.js\"",
+        "test": "jest",
+        "prune": "npm prune --production",
+        "prepare": "husky install"
+    },
+    "jest": {
+        "verbose": true,
+        "collectCoverage": true,
+        "globalSetup": "./test/global-setup.js",
+        "testTimeout": 20000
+    },
+    "keywords": [],
+    "author": "johnnyhohohohohoho@gmail.com",
+    "license": "ISC",
+    "description": "This is an example of demostrating how to create restful api using AWS API Gateway v2, AWS Lambda and DynamoDB. Deploy apis using Terraform or Serverless Framework.",
+    "devDependencies": {
+        "@commitlint/cli": "^15.0.0",
+        "@commitlint/config-conventional": "^15.0.0",
+        "eslint": "^8.3.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-prettier": "^4.0.0",
+        "husky": "^7.0.4",
+        "jest": "^27.3.1",
+        "lint-staged": "^12.1.2",
+        "prettier": "^2.4.1",
+        "serverless-offline": "^8.3.0"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged",
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
+    },
+    "lint-staged": {
+        "**/*.js": [
+            "npm run lint",
+            "jest --findRelatedTests --verbose"
+        ],
+        "*.+(json|yml)": [
+            "prettier --write --ignore-unknown"
+        ]
+    },
+    "dependencies": {
+        "ncp": "^2.0.0"
+    }
+}
