@@ -13,6 +13,7 @@
         "tf-apply:dev": "npm run lint && node deploy.js",
         "tf-apply:staging": "npm run lint && node deploy.js",
         "tf-apply:prod": "npm run lint && node deploy.js",
+        "create-layer-module": "node createLayerModule.js",
         "lint": "eslint --fix \"**/*.js\"",
         "test": "jest",
         "prune": "npm prune --production",
@@ -56,6 +57,8 @@
         ]
     },
     "dependencies": {
-        "ncp": "^2.0.0"
+        "aws-sdk": "^2.1035.0",
+        "ncp": "^2.0.0",
+        "user-service": "file:src/layer/service/user-service"
     }
 }
