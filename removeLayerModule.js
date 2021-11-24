@@ -20,13 +20,6 @@ function askQuestion(query) {
     );
 }
 
-const tplFn = `function example() {}
-
-module.exports = {
-    example,
-};
-`;
-
 (async function () {
     try {
         console.log(
@@ -38,25 +31,18 @@ module.exports = {
         );
         const layer = `${defaultLambdaLayerSrcPath}${layerPath}`;
         if (fs.existsSync(layer)) {
-            throw new Error('Module already exists!');
-        } else {
-            await fs.promises.mkdir(layer, { recursive: true });
-            const index = `${layer}/index.js`;
-            await fs.promises.writeFile(index, tplFn);
-            console.log('\nInitializing module...');
-            await exec('npm init -y', { cwd: layer });
+            console.log('\nRemoving module...');
+            await fs.promises.rm(layer, { recursive: true });
             console.log('Done!');
-            console.log('Installing your module into node_modules...');
-            await exec(`npm install file:${layer}`);
-            const moduleName = layerPath.split('/');
+            const modulePath = layerPath.split('/');
+            console.log('Uninstalling module from node_modules');
+            const dependency = modulePath[modulePath.length - 1];
+            await exec(`npm uninstall ${dependency}`);
             console.log(
-                `Done! package.json added ${
-                    moduleName[moduleName.length - 1]
-                } dependency`,
+                `Done! package.json removed ${dependency} dependency\n`,
             );
-            console.log(
-                `\nYou can write your module code in ${index} now. Remember to export data from your module.\n`,
-            );
+        } else {
+            throw new Error('Module does not exist!');
         }
     } catch (e) {
         console.error(e);
