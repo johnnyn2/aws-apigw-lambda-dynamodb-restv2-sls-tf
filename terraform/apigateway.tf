@@ -39,7 +39,7 @@ resource "aws_api_gateway_method" "getCoffeeByOrigin" {
   authorization = "NONE"
   http_method   = "POST"
   request_parameters = {
-    "method.request.querystring.coffeeid" = true
+    "method.request.querystring.origin" = true
   }
   resource_id   = aws_api_gateway_resource.getCoffeeByOrigin.id
   rest_api_id   = aws_api_gateway_rest_api.coffee.id
@@ -58,12 +58,27 @@ resource "aws_api_gateway_method" "putCoffee" {
   authorization = "CUSTOM"
   authorizer_id = aws_api_gateway_authorizer.putCoffee.id
   http_method   = "POST"
-  request_parameters = {
-    "method.request.querystring.campaignId" = true
-    "method.request.querystring.expiryDate" = false
+  request_models = {
+    "application/json": aws_api_gateway_model.Coffee.name
   }
   resource_id   = aws_api_gateway_resource.putCoffee.id
   rest_api_id   = aws_api_gateway_rest_api.coffee.id
+}
+
+resource "aws_api_gateway_model" "Coffee" {
+  rest_api_id  = aws_api_gateway_rest_api.coffee.id
+  name         = "coffee"
+  description  = "coffee JSON schema"
+  content_type = "application/json"
+
+  schema = <<EOF
+{
+  "name": "string",
+  "price": "number",
+  "origin": "string",
+  "description": "string"
+}
+EOF
 }
 
 resource "aws_api_gateway_authorizer" "putCoffee" {
