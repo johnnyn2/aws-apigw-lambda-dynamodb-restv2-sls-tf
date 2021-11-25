@@ -10,6 +10,16 @@ const { table } = require('./config.json');
 const tableNames = {};
 Object.keys(table).forEach((k) => (tableNames[k] = k));
 
+const indexNames = {};
+Object.keys(table).forEach((k) => {
+    if (typeof table[k].GlobalSecondaryIndexes !== 'undefined') {
+        const gsi = table[k].GlobalSecondaryIndexes;
+        gsi.forEach((i) => {
+            indexNames[i.IndexName] = i.IndexName;
+        });
+    }
+});
+
 const stage = process.env.npm_lifecycle_event;
 
 async function getCallerIdentityAccuont() {
@@ -46,6 +56,7 @@ async function getCallerIdentityAccuont() {
             stage: stage,
             accountId,
             ...tableNames,
+            ...indexNames,
             AWS_ACCESS_KEY_ID:
                 accessKeyId || 'ASSUME_ROLE_ACCESS_KEY_OR_DEFAULT_ACCESS_KEY',
             AWS_SECRET_ACCESS_KEY:

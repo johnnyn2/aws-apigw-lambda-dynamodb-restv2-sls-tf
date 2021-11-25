@@ -13,6 +13,7 @@ const docClient = new DocumentClient({
 });
 
 const COFFEE_INFO = process.env.COFFEE_INFO;
+const ORIGIN_INDEX = process.env.ORIGIN_INDEX;
 
 function getRandomBytes() {
     const buffer = crypto.randomBytes(16);
@@ -109,6 +110,7 @@ const ALLOWED_ORIGINS = ['http://localhost:3000'];
 module.exports = {
     docClient,
     COFFEE_INFO,
+    ORIGIN_INDEX,
     generateSessionId,
     isForbiddenRequest,
     queryDDB,

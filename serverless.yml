@@ -49,9 +49,9 @@ functions:
           request:
             schema:
               application/json:
-                name: string
-                price: number
-                origin: string
+                name: true
+                price: true
+                origin: true
     layers:
       - { Ref: NodeModulesLambdaLayer }
   PutCoffeeAuthorizer:
@@ -61,7 +61,20 @@ functions:
     package:
       patterns:
         - src/authorizers/putCoffee.js
-
+  GetCoffeeByOrigin:
+    handler: src/api/getCoffeeByOrigin.handler
+    memorySize: 128
+    package:
+      patterns:
+        - src/api/getCoffeeByOrigin.js
+    events:
+      - http:
+          path: /api/getCoffeeByOrigin
+          method: post
+          request:
+            parameters:
+              querystrings:
+                origin: true
 layers:
   NodeModules:
     path: layer
