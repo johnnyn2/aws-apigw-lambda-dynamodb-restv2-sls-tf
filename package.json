@@ -20,6 +20,8 @@
         "prune": "npm prune --production",
         "prepare": "husky install",
         "create-table-local": "node createTable.js",
+        "list-tables-local": "aws dynamodb list-tables --endpoint http://localhost:8000",
+        "scan-table-local:coffee_info": "aws dynamodb scan --table-name COFFEE_INFO --endpoint http://localhost:8000",
         "prettier": "prettier --write ."
     },
     "jest": {

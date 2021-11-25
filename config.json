@@ -25,10 +25,6 @@
                 {
                     "AttributeName": "origin",
                     "AttributeType": "S"
-                },
-                {
-                    "AttributeName": "name",
-                    "AttributeType": "S"
                 }
             ],
             "GlobalSecondaryIndexes": [
@@ -41,7 +37,6 @@
                         }
                     ],
                     "Projection": {
-                        "NonKeyAttributes": ["name", "origin"],
                         "ProjectionType": "ALL"
                     },
                     "ProvisionedThroughput": {
@@ -49,7 +44,11 @@
                         "WriteCapacityUnits": 10
                     }
                 }
-            ]
+            ],
+            "ProvisionedThroughput": {
+                "ReadCapacityUnits": 10,
+                "WriteCapacityUnits": 10
+            }
         }
     }
 }
