@@ -2,78 +2,78 @@ service: coffee
 frameworkVersion: '2'
 
 provider:
-    name: aws
-    runtime: nodejs12.x
-    lambdaHashingVersion: '20201221'
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: '20201221'
+  stage: ${env:stage}
+  region: ap-east-1
+  iam:
+    role: coffeeBasicLambdaRole
+  environment:
     stage: ${env:stage}
-    region: ap-east-1
-    iam:
-        role: coffeeBasicLambdaRole
-    environment:
-        stage: ${env:stage}
 
 plugins:
-    - serverless-offline
+  - serverless-offline
 
 package:
-    individually: true
-    patterns:
-        - '!src/**'
-        - '!node_modules/**'
-        - '!local-dynamodb/**'
-        - '!.gitignore'
-        - '!.dockerignore'
-        - '!.env'
-        - '!Dockerfile'
-        - '!README.md'
-        - '!*.js'
-        - '!*.json'
-        - '!terraform/**'
-        - '!zip/**'
+  individually: true
+  patterns:
+    - '!src/**'
+    - '!node_modules/**'
+    - '!local-dynamodb/**'
+    - '!.gitignore'
+    - '!.dockerignore'
+    - '!.env'
+    - '!Dockerfile'
+    - '!README.md'
+    - '!*.js'
+    - '!*.json'
+    - '!terraform/**'
+    - '!zip/**'
 
 functions:
-    GetCampaign:
-        handler: src/api/putCoffee.handler
-        memorySize: 128
-        package:
-            patterns:
-                - src/api/putCoffee.js
-        events:
-            - http:
-                  path: /api/putCoffee
-                  method: post
-                  request:
-                      schema:
-                          application/json:
-                              name: string
-                              price: number
+  GetCampaign:
+    handler: src/api/putCoffee.handler
+    memorySize: 128
+    package:
+      patterns:
+        - src/api/putCoffee.js
+    events:
+      - http:
+          path: /api/putCoffee
+          method: post
+          request:
+            schema:
+              application/json:
+                name: string
+                price: number
 
-        layers:
-            - { Ref: NodeModulesLambdaLayer }
+    layers:
+      - { Ref: NodeModulesLambdaLayer }
 
 layers:
-    NodeModules:
-        path: layer
-        name: ${self:service}-${sls:stage}-node-modules-layer
+  NodeModules:
+    path: layer
+    name: ${self:service}-${sls:stage}-node-modules-layer
 
 resources:
-    Resources:
-        coffeeBasicLambdaRole:
-            Type: AWS::IAM::Role
-            Properties:
-                RoleName: ${self:service}-lambda-role-${self:provider.stage}
-                AssumeRolePolicyDocument:
-                    Version: '2012-10-17'
-                    Statement:
-                        - Effect: Allow
-                          Principal:
-                              Service:
-                                  - 'lambda.amazonaws.com'
-                          Action:
-                              - 'sts:AssumeRole'
-                ManagedPolicyArns:
-                    - arn:aws:iam::${env:accountId}:policy/coffee-permissionboundary/coffee-s3-init-policy
-                    - arn:aws:iam::${env:accountId}:policy/coffee-permissionboundary/coffee-dynamodb-init-policy
-                    - arn:aws:iam::${env:accountId}:policy/coffee-permissionboundary/coffee-apigateway-init-policy
-                    - arn:aws:iam::${env:accountId}:policy/coffee-permissionboundary/coffee-lambda-init-policy
-                    - arn:aws:iam::aws:policy/CloudWatchFullAccess
+  Resources:
+    coffeeBasicLambdaRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${self:service}-lambda-role-${self:provider.stage}
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - 'lambda.amazonaws.com'
+              Action:
+                - 'sts:AssumeRole'
+        ManagedPolicyArns:
+          - arn:aws:iam::${env:accountId}:policy/coffee-permissionboundary/coffee-s3-init-policy
+          - arn:aws:iam::${env:accountId}:policy/coffee-permissionboundary/coffee-dynamodb-init-policy
+          - arn:aws:iam::${env:accountId}:policy/coffee-permissionboundary/coffee-apigateway-init-policy
+          - arn:aws:iam::${env:accountId}:policy/coffee-permissionboundary/coffee-lambda-init-policy
+          - arn:aws:iam::aws:policy/CloudWatchFullAccess

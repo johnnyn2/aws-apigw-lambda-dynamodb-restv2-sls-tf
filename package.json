@@ -19,7 +19,8 @@
         "test": "jest",
         "prune": "npm prune --production",
         "prepare": "husky install",
-        "create-table-local": "node createTable.js"
+        "create-table-local": "node createTable.js",
+        "prettier": "prettier --write ."
     },
     "jest": {
         "verbose": true,
@@ -55,7 +56,7 @@
             "jest --findRelatedTests --verbose"
         ],
         "*.+(json|yml)": [
-            "prettier --write --ignore-unknown"
+            "prettier --write ."
         ]
     },
     "dependencies": {
