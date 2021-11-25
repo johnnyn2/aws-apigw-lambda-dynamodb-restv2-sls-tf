@@ -11,6 +11,7 @@ provider:
     role: coffeeBasicLambdaRole
   environment:
     stage: ${env:stage}
+    COFFEE_INFO: COFFEE_INFO
 
 plugins:
   - serverless-offline
@@ -47,7 +48,7 @@ functions:
             identitySource: method.request.header.origin
             type: request
           request:
-            schema:
+            schemas:
               application/json:
                 name: true
                 price: true

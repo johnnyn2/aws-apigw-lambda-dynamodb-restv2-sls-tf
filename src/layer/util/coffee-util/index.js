@@ -13,7 +13,7 @@ const docClient = new DocumentClient({
 });
 
 const COFFEE_INFO = process.env.COFFEE_INFO;
-const ORIGIN_INDEX = process.env.ORIGIN_INDEX;
+const ORIGIN_INDEX = 'ORIGIN_INDEX';
 
 function getRandomBytes() {
     const buffer = crypto.randomBytes(16);

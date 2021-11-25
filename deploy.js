@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 const AWS = require('aws-sdk');
+const util = require('util');
 const { exec, spawn, ChildProcess } = require('child_process');
+const asyncExec = util.promisify(exec);
 const moment = require('moment');
 const sts = new AWS.STS();
 const iam = new AWS.IAM();
@@ -53,12 +55,15 @@ function spawnProcess(command, args, options, nextProcess) {
 (async function () {
     const accountId = await getCallerIdentityAccuont();
     const timestamp = moment(new Date()).format('YYYY-MM-DD');
+    const { stdout } = await asyncExec('git rev-parse HEAD');
+    const commitHash = stdout.trim();
     if (platform === terraform) {
         const config = {
             stdio: 'inherit',
             env: {
                 TF_VAR_stage: stage,
                 TF_VAR_accountId: accountId,
+                TF_VAR_git_hash: commitHash,
             },
             cwd: 'terraform',
         };
@@ -66,11 +71,7 @@ function spawnProcess(command, args, options, nextProcess) {
             console.log('\nRunning "terraform plan"...');
             spawnProcess(platform, [cmd], config);
         } else if (cmd === 'apply') {
-            exec('git rev-parse HEAD', (err, data, strerr) => {
-                const commitHash = data.trim();
-                config.env['TF_VAR_git_hash'] = commitHash;
-                spawnProcess(platform, [cmd], config);
-            });
+            spawnProcess(platform, [cmd], config);
         }
     } else if (platform === serverless) {
         const roleName = 'YOUR_IAM_ROLE'; // You should put your iam role here if you need to assume role for deployment
@@ -80,6 +81,7 @@ function spawnProcess(command, args, options, nextProcess) {
                 env: {
                     stage,
                     accountId,
+                    git_hash: commitHash,
                     AWS_ACCESS_KEY_ID: '',
                     AWS_SECRET_ACCESS_KEY: '',
                 },
