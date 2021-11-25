@@ -1,3 +1,55 @@
 {
-    "defaultLambdaLayerSrcPath": "src/layer/"
+    "defaultLambdaLayerSrcPath": "src/layer/",
+    "table": {
+        "COFFEE_INFO": {
+            "TableName": "COFFEE_INFO",
+            "KeySchema": [
+                {
+                    "AttributeName": "id",
+                    "KeyType": "HASH"
+                },
+                {
+                    "AttributeName": "price",
+                    "KeyType": "RANGE"
+                }
+            ],
+            "AttributeDefinitions": [
+                {
+                    "AttributeName": "id",
+                    "AttributeType": "S"
+                },
+                {
+                    "AttributeName": "price",
+                    "AttributeType": "N"
+                },
+                {
+                    "AttributeName": "origin",
+                    "AttributeType": "S"
+                },
+                {
+                    "AttributeName": "name",
+                    "AttributeType": "S"
+                }
+            ],
+            "GlobalSecondaryIndexes": [
+                {
+                    "IndexName": "ORIGIN_INDEX",
+                    "KeySchema": [
+                        {
+                            "AttributeName": "origin",
+                            "KeyType": "HASH"
+                        }
+                    ],
+                    "Projection": {
+                        "NonKeyAttributes": ["name", "origin"],
+                        "ProjectionType": "ALL"
+                    },
+                    "ProvisionedThroughput": {
+                        "ReadCapacityUnits": 10,
+                        "WriteCapacityUnits": 10
+                    }
+                }
+            ]
+        }
+    }
 }

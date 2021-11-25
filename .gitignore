@@ -26,3 +26,5 @@ zip
 coverage
 
 .eslintcache
+
+shared-local-instance.db

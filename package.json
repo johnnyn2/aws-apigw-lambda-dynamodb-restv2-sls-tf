@@ -18,7 +18,8 @@
         "lint": "eslint --fix \"**/*.js\"",
         "test": "jest",
         "prune": "npm prune --production",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "create-table-local": "node createTable.js"
     },
     "jest": {
         "verbose": true,

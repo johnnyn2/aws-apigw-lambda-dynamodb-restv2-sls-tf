@@ -3,13 +3,12 @@ const iam = new AWS.IAM();
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const moment = require('moment');
+const config = require('../config.json');
+
+const tables = {};
+Object.keys(config.table).forEach((k) => (tables[k] = k));
 
 const stage = 'dev';
-const projectName = '';
-
-const tableName = (name) => `${projectName}_${stage}_${name}`;
-
-const COFFEE_INFO = tableName('coffee_info');
 
 module.exports = async () => {
     const timestamp = moment(new Date()).format('YYYY-MM-DD');
@@ -23,7 +22,7 @@ module.exports = async () => {
     const { AccessKeyId, SecretAccessKey, SessionToken } = result.Credentials;
     const data = {
         stage,
-        COFFEE_INFO,
+        ...tables,
         AWS_ACCESS_KEY_ID: AccessKeyId,
         AWS_SECRET_ACCESS_KEY: SecretAccessKey,
         AWS_SESSION_TOKEN: SessionToken,

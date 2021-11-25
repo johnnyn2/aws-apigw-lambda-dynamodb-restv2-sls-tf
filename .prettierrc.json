@@ -3,5 +3,13 @@
     "trailingComma": "all",
     "useTabs": false,
     "tabWidth": 4,
-    "endOfLine": "auto"
+    "endOfLine": "auto",
+    "overrides": [
+        {
+            "files": "*.yml",
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
 }
