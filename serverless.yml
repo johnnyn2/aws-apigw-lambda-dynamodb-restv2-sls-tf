@@ -32,7 +32,7 @@ package:
     - '!zip/**'
 
 functions:
-  GetCampaign:
+  PutCoffee:
     handler: src/api/putCoffee.handler
     memorySize: 128
     package:
@@ -42,15 +42,25 @@ functions:
       - http:
           path: /api/putCoffee
           method: post
+          authorizer:
+            name: PutCoffeeAuthorizer
+            identitySource: method.request.header.origin
+            type: request
           request:
             schema:
               application/json:
                 name: string
                 price: number
                 origin: string
-
     layers:
       - { Ref: NodeModulesLambdaLayer }
+  PutCoffeeAuthorizer:
+    handler: src/authorizers/putCoffee.handler
+    layers:
+      - { Ref: NodeModulesLambdaLayer }
+    package:
+      patterns:
+        - src/authorizers/putCoffee.js
 
 layers:
   NodeModules:

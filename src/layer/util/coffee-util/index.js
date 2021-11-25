@@ -62,8 +62,57 @@ function generateSessionId(route) {
     return buffer;
 }
 
+function isForbiddenRequest(origins, origin) {
+    return !origins.includes(origin);
+}
+
+async function queryDDB(params) {
+    let items = [];
+    let LastEvaluatedKey = undefined;
+    do {
+        if (typeof LastEvaluatedKey !== 'undefined') {
+            params.ExclusiveStartKey = LastEvaluatedKey;
+        }
+        const result = await docClient.query(params).promise();
+        items = [...items, ...result.Items];
+        LastEvaluatedKey = result.LastEvaluatedKey;
+    } while (typeof LastEvaluatedKey !== 'undefined');
+    return items;
+}
+
+var generatePolicy = function (principalId, effect, resource) {
+    // Required output:
+    var authResponse = {};
+    authResponse.principalId = principalId;
+    var policyDocument = {};
+    policyDocument.Version = '2012-10-17'; // default version
+    policyDocument.Statement = [];
+    var statementOne = {};
+    statementOne.Action = 'execute-api:Invoke'; // default action
+    statementOne.Effect = effect;
+    statementOne.Resource = resource;
+    policyDocument.Statement[0] = statementOne;
+    authResponse.policyDocument = policyDocument;
+    return authResponse;
+};
+
+var generateAllow = function (principalId, resource) {
+    return generatePolicy(principalId, 'Allow', resource);
+};
+
+var generateDeny = function (principalId, resource) {
+    return generatePolicy(principalId, 'Deny', resource);
+};
+
+const ALLOWED_ORIGINS = ['http://localhost:3000'];
+
 module.exports = {
     docClient,
     COFFEE_INFO,
     generateSessionId,
+    isForbiddenRequest,
+    queryDDB,
+    generateAllow,
+    generateDeny,
+    ALLOWED_ORIGINS,
 };
