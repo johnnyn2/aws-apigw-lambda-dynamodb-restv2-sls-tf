@@ -33,4 +33,10 @@ describe('Get Coffee By Origin Lambda function', () => {
         const body = JSON.parse(result.body);
         expect(body.length).toBeGreaterThan(0);
     });
+
+    test('Fail to get coffee due to missing origin param', async () => {
+        const result = await handler(event, context);
+        expect(result).toBeDefined();
+        expect(result.statusCode).toBe(500);
+    });
 });
