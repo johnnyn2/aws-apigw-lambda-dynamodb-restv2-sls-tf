@@ -5,6 +5,10 @@ const exec = util.promisify(require('child_process').exec);
 const AWS = require('aws-sdk');
 const sts = new AWS.STS();
 const iam = new AWS.IAM();
+const { table } = require('./config.json');
+
+const tableNames = {};
+Object.keys(table).forEach((k) => (tableNames[k] = k));
 
 const stage = process.env.npm_lifecycle_event;
 
@@ -41,6 +45,7 @@ async function getCallerIdentityAccuont() {
         env: {
             stage: stage,
             accountId,
+            ...tableNames,
             AWS_ACCESS_KEY_ID:
                 accessKeyId || 'ASSUME_ROLE_ACCESS_KEY_OR_DEFAULT_ACCESS_KEY',
             AWS_SECRET_ACCESS_KEY:

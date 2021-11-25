@@ -47,6 +47,7 @@ functions:
               application/json:
                 name: string
                 price: number
+                origin: string
 
     layers:
       - { Ref: NodeModulesLambdaLayer }
