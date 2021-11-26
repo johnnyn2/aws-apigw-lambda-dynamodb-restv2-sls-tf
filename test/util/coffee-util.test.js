@@ -6,8 +6,14 @@ const {
     queryDDB,
     isForbiddenRequest,
     ALLOWED_ORIGINS,
+    setCookieString,
+    getCookiesFromHeader,
 } = require('coffee-util');
-const { methodArn, sortObjectByKey } = require('../helper');
+const {
+    methodArn,
+    sortObjectByKey,
+    extractCookieFromSetCookie,
+} = require('../helper');
 const { putCoffee } = require('../../src/layer/service/coffee-service');
 
 describe('Coffee-util function test', () => {
@@ -79,5 +85,46 @@ describe('Coffee-util function test', () => {
         const origin = 'http://google.com';
         const isForbidden = isForbiddenRequest(ALLOWED_ORIGINS, origin);
         expect(isForbidden).toBeTruthy();
+    });
+
+    test('Generate cookie with options', () => {
+        const cookieStr = setCookieString(
+            'Mocha_with_Bitter_Cookie',
+            'AWESOME',
+            {
+                domain: 'coffeeshop.com.hk',
+                path: '',
+                secure: false,
+                httpOnly: false,
+                sameSite: false,
+            },
+        );
+        const cookie = extractCookieFromSetCookie(cookieStr);
+        expect(cookie).toBeDefined();
+        expect(cookie['Mocha_with_Bitter_Cookie']).toBeDefined();
+    });
+
+    test('Generate cookie without options', () => {
+        const cookieStr = setCookieString(
+            'Espresso_with_options',
+            'RAW_TASTE_OF_COFFEE',
+        );
+        expect(cookieStr.length).toBeGreaterThan(0);
+    });
+
+    test('Test default generated cookie', () => {
+        const cookieStr = setCookieString('Espresso', 'DEFAULT_COOKIE');
+        expect(cookieStr).toBeDefined();
+        expect(cookieStr.length).toBeGreaterThan(0);
+        const cookie = extractCookieFromSetCookie(cookieStr);
+        console.log(cookie);
+        expect(cookie['Espresso']).toBeDefined();
+    });
+
+    test('Check empty cookie', () => {
+        const cookie = getCookiesFromHeader({
+            Cookie: 'empty;',
+        });
+        expect(cookie['empty']).toMatch(/^$/);
     });
 });

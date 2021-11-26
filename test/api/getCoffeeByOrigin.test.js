@@ -26,6 +26,7 @@ describe('Get Coffee By Origin Lambda function', () => {
             description:
                 'Yuanyang or "coffee with tea" is a popular beverage in Hong Kong, made of a mixture of coffee and Hong Kong-style milk tea. It was originally served at "dai pai dongs" (open air food vendors) and "cha chaan tengs" (cafe), but is now available in various types of restaurants. It can be served hot or cold. The name yuanyang, which refers to Mandarin Ducks, is a symbol of conjugal love in Chinese culture, as the birds usually appear in pairs and the male and female look very different. This same connotation of a "pair" of two unlike items is used to name this drink.',
         });
+        event.headers['Cookie'] = 'Mocha_with_Bitter_Cookie=AWESOME';
         const putCoffeeResult = await putCoffeeHandler(event, context);
         expect(putCoffeeResult).toBeDefined();
         expect(putCoffeeResult.statusCode).toBe(200);
@@ -40,6 +41,7 @@ describe('Get Coffee By Origin Lambda function', () => {
     });
 
     test('Fail to get coffee due to missing origin param', async () => {
+        event.headers['Cookie'] = undefined;
         const result = await handler(event, context);
         expect(result).toBeDefined();
         expect(result.statusCode).toBe(500);

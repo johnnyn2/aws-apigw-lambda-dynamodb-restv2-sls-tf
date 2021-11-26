@@ -6,6 +6,9 @@ describe('Put Coffee Lambda function', () => {
 
     const event = {
         body: {},
+        headers: {
+            origin: 'http://localhost:3000',
+        },
     };
     const context = {};
     beforeEach(() => {
