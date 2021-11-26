@@ -9,14 +9,15 @@ const {
 async function putCoffee(coffee) {
     const now = new Date().toISOString();
     coffee.price = Number(coffee.price);
+    const item = {
+        id: generateSessionId(),
+        ...coffee,
+        createDate: now,
+        updateDate: now,
+    };
     const params = {
         TableName: COFFEE_INFO,
-        Item: {
-            id: generateSessionId(),
-            ...coffee,
-            createDate: now,
-            updateDate: now,
-        },
+        Item: item,
     };
     await docClient.put(params).promise();
     return params;

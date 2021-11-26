@@ -3,6 +3,8 @@ const { handler } = require('../../src/api/getCoffeeByOrigin');
 const { handler: putCoffeeHandler } = require('../../src/api/putCoffee');
 
 describe('Get Coffee By Origin Lambda function', () => {
+    jest.useFakeTimers('legacy');
+
     const event = {
         queryStringParameters: {},
         body: {},

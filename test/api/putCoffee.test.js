@@ -2,6 +2,8 @@
 const { handler } = require('../../src/api/putCoffee');
 
 describe('Put Coffee Lambda function', () => {
+    jest.useFakeTimers('legacy');
+
     const event = {
         body: {},
     };
