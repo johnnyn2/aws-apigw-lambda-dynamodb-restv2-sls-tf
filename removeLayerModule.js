@@ -21,6 +21,12 @@ const { defaultLambdaLayerSrcPath } = config;
                 console.log(
                     `Done! package.json removed ${dependency} dependency\n`,
                 );
+                const parent = layerPath.split('/')[0];
+                const layerParent = `${defaultLambdaLayerSrcPath}${parent}`;
+                const layerParentFiles = await fs.promises.readdir(layerParent);
+                if (layerParentFiles.length <= 0) {
+                    await fs.promises.rm(layerParent, { recursive: true });
+                }
             } else {
                 throw new Error('Module does not exist!');
             }
