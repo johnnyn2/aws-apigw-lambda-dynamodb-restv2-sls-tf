@@ -1,15 +1,9 @@
 const { DocumentClient } = require('aws-sdk/clients/dynamodb');
 const crypto = require('crypto');
 
-const config =
-    process.env.stage === 'dev'
-        ? {
-              endpoint: 'http://localhost:8000',
-          }
-        : {};
 const docClient = new DocumentClient({
     region: 'ap-east-1',
-    ...config,
+    endpoint: process.env.stage === 'dev' ? 'http://localhost:8000' : undefined,
 });
 
 const COFFEE_INFO = process.env.COFFEE_INFO;

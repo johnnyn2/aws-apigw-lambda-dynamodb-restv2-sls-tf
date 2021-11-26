@@ -4,6 +4,8 @@ const {
     generateDeny,
     generateSessionId,
     queryDDB,
+    isForbiddenRequest,
+    ALLOWED_ORIGINS,
 } = require('coffee-util');
 const { methodArn, sortObjectByKey } = require('../helper');
 const { putCoffee } = require('../../src/layer/service/coffee-service');
@@ -71,5 +73,11 @@ describe('Coffee-util function test', () => {
         expect(JSON.stringify(sortedResult)).toEqual(
             JSON.stringify(sortedMockCoffees),
         );
+    });
+
+    test('Check request has matched origin header', () => {
+        const origin = 'http://google.com';
+        const isForbidden = isForbiddenRequest(ALLOWED_ORIGINS, origin);
+        expect(isForbidden).toBeTruthy();
     });
 });
