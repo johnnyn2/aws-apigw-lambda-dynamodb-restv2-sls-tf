@@ -4,7 +4,7 @@ When working in organization, permissions are always limited to developers. A po
 
 # Prerequisite
 
-1. Configure your AWS profile throught aws-cli `aws configure`. Your AWS default profile should be granted permission to assume role **arn:aws:iam::${accountId}:role/${IAM_ROLE}** (this role should be attached managed policies for S3 (deployment), APIGateway (lambda execution), Lambda (lambda execution), Dynamodb (lambda execution), Cloudwatch (lambda execution) and inline policy of *iam:AttachRolePolicy* to attach the managed policies to lambda execution role). If you encountered error such as _InvalidClientTokenId: The security token included in the request is invalid._, it's probably your aws access key and secret access key of the default AWS profile is not correct.
+1. Configure your AWS profile throught aws-cli `aws configure`. Your AWS default profile should be granted permission to assume role **arn:aws:iam::${accountId}:role/${IAM_ROLE}** (this role should be attached managed policies for S3 (deployment), APIGateway (lambda execution), Lambda (lambda execution), Dynamodb (lambda execution), Cloudwatch (lambda execution) and inline policy of _iam:AttachRolePolicy_ to attach the managed policies to lambda execution role). If you encountered error such as _InvalidClientTokenId: The security token included in the request is invalid._, it's probably your aws access key and secret access key of the default AWS profile is not correct.
 2. You can also set environment variable **AWS_ACCESS_KEY_ID** and **AWS_SECRET_ACCESS_KEY** in terminal/command prompt instead of using your default AWS profile.
 3. **ESLint** (https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint). This project uses **ESLint** for code quality checking. Please install this extension in your code editor.
 4. **AWS CLI** : https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
@@ -27,22 +27,21 @@ When working in organization, permissions are always limited to developers. A po
 1. Clone project repository. `git clone https://github.com/johnnyn2/aws-apigw-lambda-dynamodb-restv2-sls-tf.git`
 2. Locate the project. `cd aws-apigw-lambda-dynamodb-restv2-sls-tf`
 3. Check out **develop** branch. `git checkout -b develop_${YOUR_NAME}`
-5. Install dependencies. `npm install`
-6. Start local dynamodb. `docker-compose up`
-7. Create tables. `npm run create-table-local`
-8. Start local development using serverless framework. `npm run dev`
-9. This project use `ESLint` for code quality checking, `Prettier` for code formatting and `commitlint
-` (https://github.com/conventional-changelog/commitlint) for commit message linting. Please follow the rules from **Conventional Commits 1.0.0** (https://www.conventionalcommits.org/en/v1.0.0/) to write your commit messages.
-10. Git hooks - `husky` and `lint-staged`: You can only successfully commit to the repository if the commit passes code linting, commit linting and test cases checking. Error messages will be shown on the terminal/command prompt if your commit fails any checking
-11. Create **merge request** targeting the **develop** branch, add "WIP" tag and assign to yourself. Link any opening issue that is going to be solved by your merge request in the merge request description section.
-12. Remove the "WIP" tag and assign the merge request to any maintainer when the change is ready
-13. GetCoffeeByOrigin and PutCoffee API and associated test cases are created for demos. You can add any apis further as you want.
+4. Install dependencies. `npm install`
+5. Start local dynamodb. `docker-compose up`
+6. Create tables. `npm run create-table-local`
+7. Start local development using serverless framework. `npm run dev`
+8. This project use `ESLint` for code quality checking, `Prettier` for code formatting and `commitlint ` (https://github.com/conventional-changelog/commitlint) for commit message linting. Please follow the rules from **Conventional Commits 1.0.0** (https://www.conventionalcommits.org/en/v1.0.0/) to write your commit messages.
+9. Git hooks - `husky` and `lint-staged`: You can only successfully commit to the repository if the commit passes code linting, commit linting and test cases checking. Error messages will be shown on the terminal/command prompt if your commit fails any checking
+10. Create **merge request** targeting the **develop** branch, add "WIP" tag and assign to yourself. Link any opening issue that is going to be solved by your merge request in the merge request description section.
+11. Remove the "WIP" tag and assign the merge request to any maintainer when the change is ready
+12. GetCoffeeByOrigin and PutCoffee API and associated test cases are created for demos. You can add any apis further as you want.
 
 # Testing
 
-1. Testing framework : ``jest`` (https://jestjs.io/)
+1. Testing framework : `jest` (https://jestjs.io/)
 2. Testing with **DynamoDB** (https://jestjs.io/docs/dynamodb)
-3. Run all tests ``npm run test``
+3. Run all tests `npm run test`
 4. Run indivdual test `npm run -- ${path_of_your_test_file}`
 
 # Deployment
@@ -53,16 +52,16 @@ When working in organization, permissions are always limited to developers. A po
 2. Create Terraform speculative plan. `npm run tf-plan:${stage}`
 3. If step 2 succeed, you can execute actions proposed in the Terraform plan. `npm run tf-apply:${stage}` \
    Options:
-   - stage : `dev | staging | prod`
+    - stage : `dev | staging | prod`
 
 ## 2. Serverless Framework
 
 1. Under root directory, deploy the API. `npm run sls-deploy:${stage}` \
    Options:
-   - stage : `dev | staging | prod`
+    - stage : `dev | staging | prod`
 
 # Remarks
 
 1. You can use **Terraform** or **Serverless Framework** to deploy the resources. However, only Serverless Framework supports lambda development in local environment.
-2. Why put environment variables in scripts, such as `deploy.js`, `offline.js` but not `.env`/`.sh`/`.bat` file? 
-   - Because the only way for lambda function to access the DynamoDB on cloud is to source temporary credentials or profile from the role. We can only achieve this through `AWS  STS` and set the temporary credentials as environment variables in lambda execution environment (i.e. Serverless Framework environment) or setting global source profile (https://docs.aws.amazon.com/sdkref/latest/guide/setting-global-source_profile.html) and set environment variable `AWS_SDK_LOAD_CONFIG=1` when we need to invoke our api in local. However, it is annoying for every developer to configure and add additional aws profile for sourcing profile compare to executing a nodejs script.
+2. Why put environment variables in scripts, such as `deploy.js`, `offline.js` but not `.env`/`.sh`/`.bat` file?
+    - Because the only way for lambda function to access the DynamoDB on cloud is to source temporary credentials or profile from the role. We can only achieve this through `AWS STS` and set the temporary credentials as environment variables in lambda execution environment (i.e. Serverless Framework environment) or setting global source profile (https://docs.aws.amazon.com/sdkref/latest/guide/setting-global-source_profile.html) and set environment variable `AWS_SDK_LOAD_CONFIG=1` when we need to invoke our api in local. However, it is annoying for every developer to configure and add additional aws profile for sourcing profile compare to executing a nodejs script.
