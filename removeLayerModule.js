@@ -15,7 +15,7 @@ const { defaultLambdaLayerSrcPath } = config;
                 await fs.promises.rm(layer, { recursive: true });
                 console.log('Done!');
                 const modulePath = layerPath.split('/');
-                console.log('Uninstalling module from node_modules');
+                console.log('Uninstalling module from node_modules...');
                 const dependency = modulePath[modulePath.length - 1];
                 await exec(`npm uninstall ${dependency}`);
                 console.log(
