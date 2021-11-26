@@ -16,7 +16,7 @@ When working in organization, permissions are always limited to developers. A po
 
 1. `src/api/**` : Lambda function code.
 2. `src/authorizer/**` : Lambda authorizer code.
-3. `src/layer/**/**` : Custom node modules that are used as lambda layers. Any custom node module directory should include a **package.json** and **default export object** in `index.js`. You can create a module by `npm run create-layer-module` or remove any module by `npm run remove-layer-module`
+3. `src/layer/**/**` : Custom node modules that are used as lambda layers. Any custom node module directory should include a **package.json** and **default export object** in `index.js`. You can create a module by `npm run create-layer-module ${path_to_your_module}` or remove any module by `npm run remove-layer-module ${path_to_your_module}`. E.g. if you run `npm run create-layer-module mymodule/m1 mymodule/m2`, `src/layer/mymodule/m1` and `src/layer/mymodule/m2` would be created.
 4. `layer/nodejs/node_modules` : Generated Lambda layer which would be deployed. This folder **should not** be committed.
 5. `terraform/**` : Terraform deployment directory. Run `terraform init` to initialize.
 6. `test/**/**`: Lambda code test cases
