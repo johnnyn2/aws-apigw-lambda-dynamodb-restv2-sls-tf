@@ -64,3 +64,5 @@ When working in organization, permissions are always limited to developers. A po
 # Remarks
 
 1. You can use **Terraform** or **Serverless Framework** to deploy the resources. However, only Serverless Framework supports lambda development in local environment.
+2. Why put environment variables in scripts, such as `deploy.js`, `offline.js` but not `.env`/`.sh`/`.bat` file? 
+   - Because the only way for lambda function to access the DynamoDB on cloud is to source temporary credentials or profile from the role. We can only achieve this through `AWS  STS` and set the temporary credentials as environment variables in lambda execution environment (i.e. Serverless Framework environment) or setting global source profile (https://docs.aws.amazon.com/sdkref/latest/guide/setting-global-source_profile.html) and set environment variable `AWS_SDK_LOAD_CONFIG=1` when we need to invoke our api in local. However, it is annoying for every developer to configure and add additional aws profile for sourcing profile compare to executing a nodejs script.
