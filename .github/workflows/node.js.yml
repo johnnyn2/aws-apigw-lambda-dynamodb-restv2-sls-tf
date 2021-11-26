@@ -28,7 +28,4 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm ci
-      - run: export AWS_ACCESS_KEY_ID="your_key_id"
-      - run: export AWS_SECRET_ACCESS_KEY="your_secret_key"
-      - run: npm run create-table-local
       - run: npm test
