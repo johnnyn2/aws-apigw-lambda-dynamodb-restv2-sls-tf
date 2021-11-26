@@ -28,6 +28,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm run create-table-local
     - run: npm ci
+    - run: npm run create-table-local
     - run: npm test
