@@ -1,9 +1,14 @@
 const { DocumentClient } = require('aws-sdk/clients/dynamodb');
 const crypto = require('crypto');
 
+const isTest = process.env.JEST_WORKER_ID;
 const docClient = new DocumentClient({
     region: 'ap-east-1',
-    endpoint: process.env.stage === 'dev' ? 'http://localhost:8000' : undefined,
+    ...(isTest && {
+        endpoint: 'http://localhost:8000',
+        sslEnabled: false,
+        region: 'local-env',
+    }),
 });
 
 const COFFEE_INFO = process.env.COFFEE_INFO;

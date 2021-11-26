@@ -5,7 +5,7 @@ const { DynamoDB } = require('aws-sdk');
 const config = require('./config.json');
 
 const db = new DynamoDB({
-    region: 'ap-east-1',
+    region: 'local-env',
     endpoint: 'http://localhost:8000',
 });
 
