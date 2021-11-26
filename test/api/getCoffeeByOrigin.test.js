@@ -8,6 +8,9 @@ describe('Get Coffee By Origin Lambda function', () => {
     const event = {
         queryStringParameters: {},
         body: {},
+        headers: {
+            origin: 'http://localhost:3000',
+        },
     };
     const context = {};
 
