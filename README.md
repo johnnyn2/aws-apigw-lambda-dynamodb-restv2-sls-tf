@@ -1,8 +1,8 @@
-# Introduction
+## Introduction
 
 When working in organization, permissions are always limited to developers. A popular way is to use AWS IAM role to delegate access to resources to different AWS accounts. You share resources in one account with users in a different account. By setting up cross-account access in this way, you don't have to create individual IAM users in each account. In addition, users don't have to sign out of one account and sign into another in order to access resources in different AWS accounts. This project demos how to develop a coffee shop restful api using API Gateway, Lambda, DynamoDB and deploy the api through **Terraform** (https://www.terraform.io/) and **Serverless Framework** (https://www.serverless.com/)
 
-# Prerequisite
+## Prerequisite
 
 1. Configure your AWS profile throught aws-cli `aws configure`. Your AWS default profile should be granted permission to assume role **arn:aws:iam::${accountId}:role/${IAM_ROLE}** (this role should be attached managed policies for S3 (deployment), APIGateway (lambda execution), Lambda (lambda execution), Dynamodb (lambda execution), Cloudwatch (lambda execution) and inline policy of _iam:AttachRolePolicy_ to attach the managed policies to lambda execution role). If you encountered error such as _InvalidClientTokenId: The security token included in the request is invalid._, it's probably your aws access key and secret access key of the default AWS profile is not correct.
 2. You can also set environment variable **AWS_ACCESS_KEY_ID** and **AWS_SECRET_ACCESS_KEY** in terminal/command prompt instead of using your default AWS profile.
@@ -12,7 +12,7 @@ When working in organization, permissions are always limited to developers. A po
 6. **Terraform** : https://learn.hashicorp.com/tutorials/terraform/install-cli?in=terraform/aws-get-started
 7. **Serverless** : https://www.serverless.com/framework/docs/getting-started
 
-# Folder structure
+## Folder structure
 
 1. `src/api/**` : Lambda function code.
 2. `src/authorizer/**` : Lambda authorizer code.
@@ -22,7 +22,7 @@ When working in organization, permissions are always limited to developers. A po
 6. `test/**/**`: Lambda code test cases
 7. `coverage/**` : Generated test coverage and reports. This folder **should not** be committed.
 
-# Development
+## Development
 
 1. Clone project repository. `git clone https://github.com/johnnyn2/aws-apigw-lambda-dynamodb-restv2-sls-tf.git`
 2. Locate the project. `cd aws-apigw-lambda-dynamodb-restv2-sls-tf`
@@ -37,16 +37,16 @@ When working in organization, permissions are always limited to developers. A po
 11. Remove the "WIP" tag and assign the merge request to any maintainer when the change is ready
 12. GetCoffeeByOrigin and PutCoffee API and associated test cases are created for demos. You can add any apis further as you want.
 
-# Testing
+## Testing
 
 1. Testing framework : `jest` (https://jestjs.io/)
 2. Testing with **DynamoDB** (https://jestjs.io/docs/dynamodb)
 3. Run all tests `npm run test`
 4. Run indivdual test `npm run -- ${path_of_your_test_file}`
 
-# Deployment
+## Deployment
 
-## 1. Terraform
+### 1. Terraform
 
 1. Under `/terraform` directory, initialize a working directory containing Terraform configuration files. `terraform init`
 2. Create Terraform speculative plan. `npm run tf-plan:${stage}`
@@ -54,13 +54,13 @@ When working in organization, permissions are always limited to developers. A po
    Options:
     - stage : `dev | staging | prod`
 
-## 2. Serverless Framework
+### 2. Serverless Framework
 
 1. Under root directory, deploy the API. `npm run sls-deploy:${stage}` \
    Options:
     - stage : `dev | staging | prod`
 
-# Remarks
+## Remarks
 
 1. You can use **Terraform** or **Serverless Framework** to deploy the resources. However, only Serverless Framework supports lambda development in local environment.
 2. Why put environment variables in scripts, such as `deploy.js`, `offline.js` but not `.env`/`.sh`/`.bat` file?
