@@ -1,5 +1,16 @@
 version: '3.8'
 services:
+  coffee-shop-app:
+    image: johnnyhohohohohoho/aws-lambda-dynamodb-restv2-sls-tf:latest
+    container_name: aws-lambda-dynamodb-restv2-sls-tf
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    links:
+      - dynamodb-local
+    depends_on:
+      - dynamodb-local
+    command: ["npm", "test"]
   dynamodb-local:
     command: '-jar DynamoDBLocal.jar -sharedDb -dbPath ./data'
     image: 'johnnyhohohohohoho/coffee-shop-dynamodb-local:latest'

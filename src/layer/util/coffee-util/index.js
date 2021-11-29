@@ -5,7 +5,7 @@ const isTest = process.env.JEST_WORKER_ID;
 const docClient = new DocumentClient({
     region: 'ap-east-1',
     ...(isTest && {
-        endpoint: 'http://localhost:8000',
+        endpoint: 'http://dynamodb-local:8000',
         sslEnabled: false,
         region: 'local-env',
     }),
