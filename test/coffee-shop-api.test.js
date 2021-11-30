@@ -4,7 +4,7 @@ const { putCoffeeBlock } = require('./api/putCoffee');
 const { coffeeUtilBlock } = require('./util/coffee-util');
 const { createTable } = require('../createTable');
 
-beforeAll(() => createTable());
+beforeAll(() => createTable(), 20000);
 
 getCoffeeByOriginBlock();
 
