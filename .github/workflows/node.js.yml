@@ -20,9 +20,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm ci
-      - name: Setup DynamoBD Local
-        uses: rrainn/dynamodb-action@v2.0.0
-        with:
-          port: 8000
-          cors: '*'
+      # - name: Setup DynamoBD Local
+      #   uses: rrainn/dynamodb-action@v2.0.0
+      #   with:
+      #     port: 8000
+      #     cors: '*'
       - run: npm test

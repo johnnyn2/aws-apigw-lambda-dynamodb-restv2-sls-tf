@@ -6,6 +6,7 @@ const moment = require('moment');
 const config = require('../config.json');
 const DynamoDbLocal = require('dynamodb-local');
 const dynamoLocalPort = 8000;
+const { createTable } = require('../createTable');
 
 const tables = {};
 Object.keys(config.table).forEach((k) => (tables[k] = k));
@@ -44,5 +45,6 @@ module.exports = async () => {
     let child = await DynamoDbLocal.launch(dynamoLocalPort, null, [
         '-sharedDb',
     ]);
+    await createTable();
     global.__DYNAMODB__ = child;
 };
