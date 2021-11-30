@@ -10,13 +10,13 @@ AWS.config.update({
 });
 
 const db = new AWS.DynamoDB();
+const table = config.table;
 
 async function createTable() {
-    const table = config.table;
-    Object.keys(table).forEach(async (k) => {
+    for (const k of Object.keys(table)) {
         const result = await db.createTable(table[k]).promise();
         console.log(result);
-    });
+    }
 }
 
 module.exports = {

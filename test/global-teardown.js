@@ -1,5 +1,5 @@
-// const DynamoDbLocal = require('dynamodb-local');
+const DynamoDbLocal = require('dynamodb-local');
 
 module.exports = async () => {
-    // DynamoDbLocal.stopChild(global.__DYNAMODB__);
+    DynamoDbLocal.stopChild(global.__DYNAMODB__);
 };
