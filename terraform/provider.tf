@@ -12,7 +12,8 @@ provider "aws" {
     }
 
     region = "ap-east-1"
+    # Assume role to get sufficient permission to deploy your restful api
     # assume_role {
-    #     role_arn = "arn:aws:iam::${var.accountId}:role/YOUR_ROLE"
+    #     role_arn = "arn:aws:iam::${var.accountId}:role/YOUR_IAM_ROLE"
     # }
 }
