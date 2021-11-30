@@ -1,6 +1,6 @@
 ## Introduction
 
-When working in organization, permissions are always limited to developers. A popular way is to use AWS IAM role to delegate access to resources to different AWS accounts. You share resources in one account with users in a different account. By setting up cross-account access in this way, you don't have to create individual IAM users in each account. In addition, users don't have to sign out of one account and sign into another in order to access resources in different AWS accounts. This project demos how to develop a coffee shop restful api using API Gateway, Lambda, DynamoDB and deploy the api through **Terraform** (https://www.terraform.io/) and **Serverless Framework** (https://www.serverless.com/)
+When working in organization, permissions are always limited to developers. A popular way is to use AWS IAM role to delegate access to resources to different AWS accounts. You share resources in one account with users in a different account. By setting up cross-account access in this way, you don't have to create individual IAM users in each account. In addition, users don't have to sign out of one account and sign into another in order to access resources in different AWS accounts. This project demos how to develop a coffee shop restful api using **API Gateway**, **Lambda**, **DynamoDB** and deploy the api through **Terraform** (https://www.terraform.io/) and **Serverless Framework** (https://www.serverless.com/)
 
 ## Prerequisite
 
