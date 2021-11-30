@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   coffee-shop-app:
     image: johnnyhohohohohoho/aws-lambda-dynamodb-restv2-sls-tf:latest
@@ -12,11 +12,11 @@ services:
       - dynamodb-local
     command: ["npm", "test"]
   dynamodb-local:
-    command: '-jar DynamoDBLocal.jar -sharedDb -dbPath ./data'
-    image: 'johnnyhohohohohoho/coffee-shop-dynamodb-local:latest'
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "johnnyhohohohohoho/coffee-shop-dynamodb-local:latest"
     container_name: coffee-shop-dynamodb-local
     ports:
-      - '8000:8000'
+      - "8000:8000"
     volumes:
-      - './docker/dynamodb:/home/dynamodblocal/data'
+      - "./docker/dynamodb:/home/dynamodblocal/data"
     working_dir: /home/dynamodblocal
