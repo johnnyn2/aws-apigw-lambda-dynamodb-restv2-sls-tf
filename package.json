@@ -58,7 +58,7 @@
     "lint-staged": {
         "**/*.js": [
             "npm run lint",
-            "jest --findRelatedTests --verbose"
+            "jest --findRelatedTests --verbose --coverage"
         ],
         "*.+(json|yml)": [
             "prettier --write ."
