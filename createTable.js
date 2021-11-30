@@ -13,10 +13,12 @@ const db = new AWS.DynamoDB();
 const table = config.table;
 
 async function createTable() {
+    console.log('\nCreate local DynamoDB tables...');
     for (const k of Object.keys(table)) {
         const result = await db.createTable(table[k]).promise();
         console.log(result);
     }
+    console.log('Done!');
 }
 
 module.exports = {
