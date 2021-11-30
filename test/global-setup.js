@@ -20,10 +20,6 @@ module.exports = async () => {
         AWS_ACCESS_KEY_ID: 'YOUR_AWS_ACCESS_KEY_ID',
         AWS_SECRET_ACCESS_KEY: 'YOUR_SECRET_ACCESS_KEY',
     };
-    const config = new AWS.Config();
-    config.credentials.accessKeyId = awsConfig.AWS_ACCESS_KEY_ID;
-    config.credentials.secretAccessKey = awsConfig.AWS_SECRET_ACCESS_KEY;
-    AWS.config.update(config);
     if (roleName !== 'YOUR_IAM_ROLE') {
         // connect to cloud dynamodb
         const getRole = await iam.getRole({ RoleName: roleName }).promise();
@@ -36,13 +32,6 @@ module.exports = async () => {
         awsConfig.AWS_ACCESS_KEY_ID = AccessKeyId;
         awsConfig.AWS_SECRET_ACCESS_KEY = SecretAccessKey;
         awsConfig['AWS_SESSION_TOKEN'] = SessionToken;
-    } else {
-        // use local dynamodb if you have not provisioned dynamodb on cloud
-        let child = await DynamoDbLocal.launch(dynamoLocalPort, null, [
-            '-sharedDb',
-        ]);
-        await createTable();
-        global.__DYNAMODB__ = child;
     }
     const data = {
         stage,
@@ -53,4 +42,10 @@ module.exports = async () => {
         ...process.env,
         ...data,
     };
+    // use local dynamodb if you have not provisioned dynamodb on cloud
+    let child = await DynamoDbLocal.launch(dynamoLocalPort, null, [
+        '-sharedDb',
+    ]);
+    await createTable();
+    global.__DYNAMODB__ = child;
 };
