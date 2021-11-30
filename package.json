@@ -16,7 +16,7 @@
         "create-layer-module": "node createLayerModule.js",
         "remove-layer-module": "node removeLayerModule.js",
         "lint": "eslint --fix \"**/*.js\"",
-        "test": "jest",
+        "test": "jest --no-cache",
         "prune": "npm prune --production",
         "prepare": "husky install",
         "create-table-local": "node createTable.js",
