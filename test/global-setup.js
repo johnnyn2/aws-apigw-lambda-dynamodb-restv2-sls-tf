@@ -4,8 +4,8 @@ const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const moment = require('moment');
 const config = require('../config.json');
-const DynamoDbLocal = require('dynamodb-local');
-const dynamoLocalPort = 8000;
+// const DynamoDbLocal = require('dynamodb-local');
+// const dynamoLocalPort = 8000;
 const { createTable } = require('../createTable');
 
 const tables = {};
@@ -42,9 +42,9 @@ module.exports = async () => {
         ...data,
     };
 
-    let child = await DynamoDbLocal.launch(dynamoLocalPort, null, [
-        '-sharedDb',
-    ]);
+    // let child = await DynamoDbLocal.launch(dynamoLocalPort, null, [
+    //     '-sharedDb',
+    // ]);
     await createTable();
-    global.__DYNAMODB__ = child;
+    // global.__DYNAMODB__ = child;
 };
