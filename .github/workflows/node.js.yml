@@ -19,7 +19,7 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      # - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       # - name: Start local dynamodb and test
       #   run: docker-compose up -d
       - name: Use Node.js ${{ matrix.node-version }}
@@ -27,6 +27,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          # cache-dependency-path: '**/package-lock.json'
       - run: npm ci
       - run: npm test
