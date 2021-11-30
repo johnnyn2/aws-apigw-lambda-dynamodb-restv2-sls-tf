@@ -19,10 +19,6 @@ async function createTable() {
     });
 }
 
-// (async function () {
-//     await createTable();
-// })();
-
 module.exports = {
     createTable,
 };
