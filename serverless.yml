@@ -1,10 +1,10 @@
 service: coffee
-frameworkVersion: "2"
+frameworkVersion: '2'
 
 provider:
   name: aws
   runtime: nodejs12.x
-  lambdaHashingVersion: "20201221"
+  lambdaHashingVersion: '20201221'
   stage: ${env:stage}
   region: ap-east-1
   iam:
@@ -19,18 +19,18 @@ plugins:
 package:
   individually: true
   patterns:
-    - "!src/**"
-    - "!node_modules/**"
-    - "!local-dynamodb/**"
-    - "!.gitignore"
-    - "!.dockerignore"
-    - "!.env"
-    - "!Dockerfile"
-    - "!README.md"
-    - "!*.js"
-    - "!*.json"
-    - "!terraform/**"
-    - "!zip/**"
+    - '!src/**'
+    - '!node_modules/**'
+    - '!local-dynamodb/**'
+    - '!.gitignore'
+    - '!.dockerignore'
+    - '!.env'
+    - '!Dockerfile'
+    - '!README.md'
+    - '!*.js'
+    - '!*.json'
+    - '!terraform/**'
+    - '!zip/**'
 
 functions:
   PutCoffee:
@@ -88,14 +88,14 @@ resources:
       Properties:
         RoleName: ${self:service}-lambda-role-${self:provider.stage}
         AssumeRolePolicyDocument:
-          Version: "2012-10-17"
+          Version: '2012-10-17'
           Statement:
             - Effect: Allow
               Principal:
                 Service:
-                  - "lambda.amazonaws.com"
+                  - 'lambda.amazonaws.com'
               Action:
-                - "sts:AssumeRole"
+                - 'sts:AssumeRole'
         ManagedPolicyArns:
           - arn:aws:iam::${env:accountId}:policy/coffee-permissionboundary/coffee-s3-init-policy
           - arn:aws:iam::${env:accountId}:policy/coffee-permissionboundary/coffee-dynamodb-init-policy
