@@ -20,6 +20,10 @@ module.exports = async () => {
         AWS_ACCESS_KEY_ID: 'YOUR_AWS_ACCESS_KEY_ID',
         AWS_SECRET_ACCESS_KEY: 'YOUR_SECRET_ACCESS_KEY',
     };
+    const config = new AWS.Config();
+    config.credentials.accessKeyId = awsConfig.AWS_ACCESS_KEY_ID;
+    config.credentials.secretAccessKey = awsConfig.AWS_SECRET_ACCESS_KEY;
+    AWS.config.update(config);
     if (roleName !== 'YOUR_IAM_ROLE') {
         // connect to cloud dynamodb
         const getRole = await iam.getRole({ RoleName: roleName }).promise();
