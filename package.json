@@ -29,7 +29,10 @@
         "collectCoverage": true,
         "globalSetup": "./test/global-setup.js",
         "globalTeardown": "./test/global-teardown.js",
-        "testTimeout": 20000
+        "testTimeout": 20000,
+        "setupFilesAfterEnv": [
+            "./test/setupFilesAfterEnv.js"
+        ]
     },
     "keywords": [],
     "author": "johnnyhohohohohoho@gmail.com",
