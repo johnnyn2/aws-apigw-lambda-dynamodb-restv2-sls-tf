@@ -31,7 +31,7 @@
         "globalTeardown": "./test/global-teardown.js",
         "testTimeout": 20000,
         "setupFilesAfterEnv": [
-            "./test/setupFilesAfterEnv.js"
+            "./test/jest.setup.js"
         ]
     },
     "keywords": [],

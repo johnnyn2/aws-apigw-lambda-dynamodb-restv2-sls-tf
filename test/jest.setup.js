@@ -1,2 +1,2 @@
 /* eslint-disable no-undef */
-jest.setTimeout(20000);
+jest.setTimeout(30000);
