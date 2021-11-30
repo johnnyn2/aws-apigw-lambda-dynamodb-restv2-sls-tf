@@ -17,6 +17,7 @@
         "remove-layer-module": "node removeLayerModule.js",
         "lint": "eslint --fix \"**/*.js\"",
         "test": "jest --no-cache",
+        "test-ci": "jest --no-cache --ci",
         "prune": "npm prune --production",
         "prepare": "husky install",
         "create-table-local": "node createTable.js",
