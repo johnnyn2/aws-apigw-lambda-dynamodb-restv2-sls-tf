@@ -28,6 +28,7 @@
         "verbose": true,
         "collectCoverage": true,
         "globalSetup": "./test/global-setup.js",
+        "globalTeardown": "./test/global-teardown.js",
         "testTimeout": 20000
     },
     "keywords": [],
@@ -37,14 +38,15 @@
     "devDependencies": {
         "@commitlint/cli": "^15.0.0",
         "@commitlint/config-conventional": "^15.0.0",
+        "dynamodb-local": "0.0.31",
         "eslint": "^8.3.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-prettier": "^4.0.0",
+        "husky": "^7.0.0",
         "jest": "^27.3.1",
         "lint-staged": "^12.1.2",
         "prettier": "^2.4.1",
-        "serverless-offline": "^8.3.0",
-        "husky": "^7.0.0"
+        "serverless-offline": "^8.3.0"
     },
     "husky": {
         "hooks": {
